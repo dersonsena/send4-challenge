@@ -22,19 +22,16 @@ class RegisterAction extends Controller
         ]);
 
         try {
-
             $user = new User();
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $plainPassword = $request->input('password');
-            $user->password = app('hash')->make($plainPassword);
-
+            $user->password = app('hash')->make($request->input('password'));
             $user->save();
 
-            return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+            return $this->defaultResponse($user);
 
         } catch (\Exception $e) {
-            return response()->json(['message' => 'User Registration Failed!'], 409);
+            return $this->defaultResponse('User Registration Failed!', 'error', 409);
         }
     }
 }

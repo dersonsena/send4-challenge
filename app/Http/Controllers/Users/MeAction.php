@@ -14,6 +14,6 @@ class MeAction extends Controller
 
     public function handle()
     {
-        return response()->json(['user' => Auth::user()], 200);
+        return $this->defaultResponse(Auth::user());
     }
 }

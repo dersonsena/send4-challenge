@@ -15,7 +15,9 @@ class UserTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Administrador',
             'email' => env('ADMIN_EMAIL', 'admin@send4.com.br'),
-            'password' => app('hash')->make(env('ADMIN_PASSWORD', 'admin'))
+            'password' => app('hash')->make(env('ADMIN_PASSWORD', 'admin')),
+            'created_at' => date('Y-m-d h:i:s'),
+            'updated_at' => date('Y-m-d h:i:s')
         ]);
     }
 }
