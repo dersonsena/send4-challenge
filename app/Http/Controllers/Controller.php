@@ -9,13 +9,13 @@ class Controller extends BaseController
 {
     protected function defaultResponse($data, string $status = 'success', int $statusCode = 200)
     {
-        $data = ['status' => $status, 'data' => $data];
+        $responseData = ['status' => $status, 'data' => $data];
 
         if ($status === 'error') {
-            $data = ['status' => $status, 'message' => $data];
+            $responseData = ['status' => $status, 'message' => $data];
         }
 
-        return response()->json($data, $statusCode);
+        return response()->json($responseData, $statusCode);
     }
 
     protected function respondWithToken($token, $status = 'success')
