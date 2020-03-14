@@ -16,7 +16,7 @@ class CreateProductsUsersTable extends Migration
         Schema::create('products_users', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('product_id');
+            $table->bigInteger('product_id');
             $table->timestamps();
         });
     }
