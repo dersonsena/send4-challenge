@@ -3,8 +3,16 @@
 namespace App\Domain\Shopify;
 
 use App\Infra\Rest\EndpointResolver;
+use ErrorException;
 use Exception;
 
+/**
+ * Class Product
+ * @package App\Domain\Shopify
+ *
+ * @property int $id
+ * @property string $title
+ */
 class Product
 {
     /**
@@ -22,18 +30,34 @@ class Product
     }
 
     /**
-     *
      * @param int $id
-     * @return Product
+     * @return Product|bool
      */
-    public function loadProductById(int $id): Product
+    public function loadProductById(int $id)
     {
-        $endpoint = EndpointResolver::getApiEndpoint("/admin/api/2020-01/products/{$id}.json");
-        $payload = file_get_contents($endpoint);
-        $productRaw = (array)(json_decode($payload))->product;
+        $endpoint = EndpointResolver::getApiEndpoint("/products/{$id}.json");
 
-        $this->attributes = $productRaw;
+        try {
+            $payload = json_decode(file_get_contents($endpoint));
+            $product = (array)$payload->product;
 
-        return $this;
+            if (isset($product['errors'])) {
+                return false;
+            }
+
+            $this->attributes = $product;
+
+            return $this;
+        } catch (ErrorException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
     }
 }
