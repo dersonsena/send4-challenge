@@ -11,6 +11,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth']], function () use ($
     $router->post('/users/register', 'Users\\RegisterAction@handle');
 
     // Product
+    $router->get('/products/favorites', 'Product\\FavoritesAction@handle');
     $router->post('/products/favorite/{id}', 'Product\\FavoriteAction@handle');
     $router->post('/products/disfavor/{id}', 'Product\\DisfavorAction@handle');
 });
