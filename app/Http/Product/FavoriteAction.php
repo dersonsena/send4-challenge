@@ -7,36 +7,24 @@ use App\Domain\Shopify\Product;
 use App\Domain\User\User;
 use App\Http\Controller;
 use App\Jobs\FavoriteMailJob;
-use App\Jobs\TestMailJob;
 use App\Mail\FavoriteMail;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteAction extends Controller
 {
+    use FavoriteHelpers;
+
     public function __invoke(int $id)
     {
-        $product = (new Product())->loadProductById($id);
-
-        if (!$product) {
-            return $this->defaultResponse("Product doesn't exists.", 'error', 404);
-        }
-
         $userId = Auth::user()->getAuthIdentifier();
+        $product = $this->getProductFromShopify($id);
 
-        /** @var Collection $productsOfTheUser */
-        $productsOfTheUser = ProductUser::where(['product_id' => $product->id, 'user_id' => $userId])->get();
-
-        if ($productsOfTheUser->count() > 0) {
+        if (ProductUser::countProductsOfTheUser($userId, $product) > 0) {
             return $this->defaultResponse("This product is already in your favorites list.", 'success', 200);
         }
 
-        $productUser = new ProductUser();
-        $productUser->product_id = $product->id;
-        $productUser->user_id = $userId;
-
-        if (!$productUser->save()) {
+        if (!ProductUser::favoriteProduct($userId, $product)) {
             return $this->defaultResponse("There was error on favorite this product.", 'error', 409);
         }
 

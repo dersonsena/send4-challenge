@@ -50,4 +50,30 @@ class ProductUser extends Model
 
         return $responseData;
     }
+
+    /**
+     * @param int $userId
+     * @param Product $product
+     * @return int
+     */
+    public static function countProductsOfTheUser(int $userId, Product $product): int
+    {
+        /** @var Collection $productsOfTheUser */
+        $productsOfTheUser = static::where(['product_id' => $product->id, 'user_id' => $userId])->get();
+        return $productsOfTheUser->count();
+    }
+
+    /**
+     * @param int $userId
+     * @param Product $product
+     * @return bool
+     */
+    public static function favoriteProduct(int $userId, Product $product): bool
+    {
+        $productUser = new static();
+        $productUser->product_id = $product->id;
+        $productUser->user_id = $userId;
+
+        return $productUser->save();
+    }
 }
