@@ -6,7 +6,7 @@ use App\Domain\Shopify\Product;
 use App\Domain\User\User;
 use Illuminate\Mail\Mailable;
 
-class FavoriteNotification extends Mailable
+class FavoriteMail extends Mailable
 {
     /**
      * @var int
@@ -36,7 +36,7 @@ class FavoriteNotification extends Mailable
     /**
      * @var string
      */
-    private $action = FavoriteNotification::FAVORITE;
+    private $action = FavoriteMail::FAVORITE;
 
     public function __construct(
         User $user,
@@ -78,9 +78,9 @@ class FavoriteNotification extends Mailable
 
     /**
      * @param string $action
-     * @return FavoriteNotification
+     * @return FavoriteMail
      */
-    public function setAction(string $action): FavoriteNotification
+    public function setAction(string $action): FavoriteMail
     {
         $this->action = $action;
         return $this;

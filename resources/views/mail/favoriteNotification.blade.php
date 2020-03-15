@@ -14,13 +14,15 @@
 <h3>Veja sua lista de Produtos Favoritos</h3>
 
 <ul style="list-style-type: none">
-@foreach ($favoritedProducts as $product)
+@forelse ($favoritedProducts as $product)
     <li style="width: 50%; text-align: center">
         <img src="{{ $product['image']->src }}" alt="{{ $product['title'] }}" width="150">
         <hr>
         <h3 style="text-align: center">{{ $product['title'] }}</h3>
     </li>
-@endforeach
+@empty
+    <li style="text-align: center">Você não possui nenhum favorito.</li>
+@endforelse
 </ul>
 
 @endcomponent
