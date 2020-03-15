@@ -4,14 +4,10 @@ namespace App\Mail;
 
 use App\Domain\Shopify\Product;
 use App\Domain\User\User;
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
 class FavoriteNotification extends Mailable
 {
-    use Queueable, SerializesModels;
-
     /**
      * @var int
      */
