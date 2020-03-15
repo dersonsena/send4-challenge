@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\ExampleEvent;
+use App\Events\NotifyFavoriteEvent;
 use App\Listeners\ExampleListener;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        ExampleEvent::class => [
+        NotifyFavoriteEvent::class => [
             ExampleListener::class,
         ],
     ];

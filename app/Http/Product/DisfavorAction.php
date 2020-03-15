@@ -31,16 +31,6 @@ class DisfavorAction extends Controller
             return $this->defaultResponse("There was error on disfavor this product.", 'error', 409);
         }
 
-        $user = User::find($userId);
-        $favorites = ProductUser::getFavoritesList($userId);
-        $delay = Carbon::now()->addSeconds(env('MAIL_FAVORITE_DELAY', 7));
-
-        $job = (new FavoriteMailJob($user, $product, $favorites, FavoriteMail::DISFAVOR))
-            ->delay($delay)
-            ->onQueue(env('MAIL_QUEUE', 'mail'));
-
-        dispatch($job);
-
         return $this->defaultResponse("Product was disfavored successfully.", 'success', 200);
     }
 }

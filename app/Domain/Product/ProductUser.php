@@ -2,6 +2,8 @@
 
 namespace App\Domain\Product;
 
+use App\Domain\Product\Events\CreatedEvent;
+use App\Domain\Product\Events\DeletedEvent;
 use App\Domain\Shopify\Product;
 use App\Infra\Rest\EndpointResolver;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,6 +23,14 @@ class ProductUser extends Model
      * @var string
      */
     protected $table = 'products_users';
+
+    /**
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => CreatedEvent::class,
+        'deleted' => DeletedEvent::class
+    ];
 
     /**
      * @param int $userId
