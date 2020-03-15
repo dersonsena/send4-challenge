@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Users;
 
 use App\Domain\User\User;
-use App\Http\Controllers\Controller;
+use App\Http\Controller;
 use Illuminate\Http\Request;
 
 class RegisterAction extends Controller

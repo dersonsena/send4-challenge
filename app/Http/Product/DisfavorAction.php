@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Product;
+namespace App\Http\Product;
 
 use App\Domain\Product\ProductUser;
 use App\Domain\Shopify\Product;
-use App\Http\Controllers\Controller;
+use App\Http\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class DisfavorAction extends Controller

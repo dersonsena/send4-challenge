@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Product;
+namespace App\Http\Product;
 
 use App\Domain\Product\ProductUser;
-use App\Http\Controllers\Controller;
+use App\Http\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class FavoritesAction extends Controller
