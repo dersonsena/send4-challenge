@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ExampleEvent;
+use App\Events\SendFavoriteNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -21,10 +21,10 @@ class ExampleListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\ExampleEvent  $event
+     * @param  \App\Events\SendFavoriteNotification  $event
      * @return void
      */
-    public function handle(ExampleEvent $event)
+    public function handle(SendFavoriteNotification $event)
     {
         //
     }
