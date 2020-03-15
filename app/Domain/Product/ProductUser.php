@@ -35,7 +35,12 @@ class ProductUser extends Model
             return $row->product_id;
         }, $productsOfTheUser->all());
 
+        if (empty($ids)) {
+            return [];
+        }
+
         $endpoint = EndpointResolver::getApiEndpoint("/products.json?ids=" . implode(',', $ids));
+
         $data = (json_decode(file_get_contents($endpoint)))->products;
         $responseData = [];
 
