@@ -4,8 +4,11 @@ namespace App\Http\Product;
 
 use App\Domain\Product\ProductUser;
 use App\Domain\Shopify\Product;
+use App\Domain\User\User;
 use App\Http\Controller;
+use App\Mail\FavoriteNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DisfavorAction extends Controller
 {
@@ -30,6 +33,14 @@ class DisfavorAction extends Controller
             return $this->defaultResponse("There was error on disfavor this product.", 'error', 409);
         }
 
-        return $this->defaultResponse("Product was disfavor successfully.", 'success', 200);
+        $user = User::find($userId);
+        $favorites = ProductUser::getFavoritesList($userId);
+
+        $sender = new FavoriteNotification($user, $product, $favorites);
+        $sender->setAction(FavoriteNotification::DISFAVOR);
+
+        Mail::send($sender);
+
+        return $this->defaultResponse("Product was disfavored successfully.", 'success', 200);
     }
 }
