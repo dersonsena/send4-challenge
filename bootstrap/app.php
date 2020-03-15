@@ -43,8 +43,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    Illuminate\Contracts\Console\Kernel::class
 );
 
 /*
@@ -100,7 +99,7 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
-$app->router->group(['namespace' => 'App\Http'], function ($router) {
+$app->router->group(['namespace' => ''], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
 

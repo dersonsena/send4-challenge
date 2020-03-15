@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class RegisterAction extends Controller
 {
-    public function handle(Request $request)
+    public function __invoke(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',

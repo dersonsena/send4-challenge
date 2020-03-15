@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MeAction extends Controller
 {
-    public function handle()
+    public function __invoke()
     {
         return $this->defaultResponse(Auth::user());
     }
