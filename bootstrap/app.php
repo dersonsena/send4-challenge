@@ -59,6 +59,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
@@ -84,11 +85,10 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
