@@ -7,8 +7,10 @@
     "require": {
         "php": "^7.2.5",
         "ext-json": "*",
+        "illuminate/mail": "^7.1",
         "laravel/helpers": "^1.2",
         "laravel/lumen-framework": "^7.0",
+        "ramsey/uuid": "^3.9",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {

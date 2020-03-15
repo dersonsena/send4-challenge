@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginAction extends Controller
 {
-    public function handle(Request $request)
+    public function __invoke(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|string',

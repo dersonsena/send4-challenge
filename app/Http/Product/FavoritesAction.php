@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoritesAction extends Controller
 {
-    public function handle()
+    public function __invoke()
     {
         $userId = Auth::user()->getAuthIdentifier();
         $favorites = ProductUser::getFavoritesList($userId);

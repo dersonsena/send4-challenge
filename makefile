@@ -76,3 +76,9 @@ seed: ## Seed the database with records
 
 factory: ## Create a new model factory (e.i: make factory NAME="PostFactory")
 	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan make:factory ${NAME}
+
+queueTable: ## Create a migration for the queue jobs database table
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan queue:table
+
+queueWork: ## Start processing jobs on the queue as a daemon
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan queue:work

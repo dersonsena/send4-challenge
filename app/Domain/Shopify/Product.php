@@ -12,6 +12,8 @@ use Exception;
  *
  * @property int $id
  * @property string $title
+ * @property object $image
+ * @property array $images
  */
 class Product
 {
