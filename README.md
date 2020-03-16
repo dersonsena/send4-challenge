@@ -1,24 +1,126 @@
-# Lumen PHP Framework
+# Send4 Challenge
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+Feito por: Kilderson Sena ([@dersonsena](https://github.com/dersonsena))
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Nesse projeto você poderá rodar uma API desenvolvido com Laravel com integração com a [Shopify](https://pt.shopify.com). Mais detalhes sobre as funcionalidades pode ser visto no [Documento de Requisitos](/documento-requisitos.pdf) do teste.
 
-## Official Documentation
+## Pré-requisitos
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+É requisito para rodar este projeto:
 
-## Contributing
+- Docker;
+- Usar um host UNIX;
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalação
 
-## Security Vulnerabilities
+### 1 - Clone do Repositório
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Abra seu terminal e faça o clone deste projeto:
 
-## License
+```bash
+$ git clone git@github.com:dersonsena/send4-challenge.git
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2 - Arquivo `.env`
+
+Faça uma cópia do `.env.example` renomeando para `.env` e preencha as variáveis de ambiente.
+
+```bash
+$ cd send4-challenge
+$ cp .env.example .env
+``` 
+
+No arquivo `.env` já é sugerido alguns valores para algumas variáveis de ambiente, mas, fique a vontade para altera-las de acordo com seu ambiente.
+
+### 3 - Variáveis de Ambiente
+
+Algumas variáveis de ambiente devem ser configuradas para que você consiga subir a API em sua máquina.
+
+No parâmetro abaixo, coloque uma senha de sua preferência para o usuário root do MySQL Server:
+```
+DB_PASSWORD=secret
+```
+
+A API é integrada com uma loja do Shopify e para essa integração funcionar é necessário informar a `API KEY` e o `PASSWORD`. Para ter esses valores, vide o [Documento de Requisitos](/documento-requisitos.pdf) e preencha no seu arquivo `.env`. 
+```
+SHOPIFY_API_KEY=
+SHOPIFY_PASSWORD=
+```
+
+Alguns endpoints precisam fazer envio de e-mail e para isso precisamos configurar algumas informações para ter êxito. Eu criei uma conta no [Mailtrap](https://mailtrap.io) para poder usar neste teste, então, você pode usar as credenciais abaixo:
+```
+MAIL_PORT=2525
+MAIL_USERNAME=ed8e4adb29a1d4
+MAIL_PASSWORD=f528c4edabe064
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=dersonsena@gmail.com
+MAIL_FROM_NAME="Send4 Notifications"
+```
+
+### 4 - Fazendo setup
+
+Execute o comando abaixo para ser executado uma espécie de pipeline de instalação e configuração do projeto:
+
+```bash
+$ make setup
+```
+
+Se ocorrer tudo certo durante o setup os containers docker já estarão de pé e prontos para serem consumidos
+
+> **IMPORTANTE:** ao terminar o setup o serviço de filas do laravel ficará sendo executando em background. Você poder cancelar o processo com `CTRL + C` e para subir novamente o serviço basta executar o comando `make queueWork`.
+
+## Enpoints
+
+### Login
+
+URL: `GET api/auth/login?email=admin@send4.com.br&password=admin`
+
+> **IMPORTANTE:** ao consumir esse serviço, você deverá pegar o Token JWT de autenticação para serem informados nos outros serviços
+
+### Me
+
+URL: `GET /api/users/me`
+
+Header: `Authorization Bearer <JWT_TOKEN>`
+
+### Register
+
+URL: `POST /api/users/register`
+
+Header: `Authorization Bearer <JWT_TOKEN>`
+
+Body: `{ "name": "José da Silva", "email": "jose@domain.com.br", "password": "123456" }`
+
+### My Favorites
+
+URL: `GET /api/products/favorites`
+
+Header: `Authorization Bearer <JWT_TOKEN>`
+
+### Favorite Product
+
+URL: `POST /api/products/favorite/<SHOPIFY_PRODUCT_ID>`
+
+Header: `Authorization Bearer <JWT_TOKEN>`
+
+### Disfavor Product
+
+URL: `POST /api/products/disfavor/<SHOPIFY_PRODUCT_ID>`
+
+Header: `Authorization Bearer <JWT_TOKEN>`
+
+## Makefile
+
+Eu desenvolvi um script [makefile](/makefile) que só dá para ser usando nativamente em hosts UNIX. Eu uso esse script para executar rapidamente comandos dentro dos container Docker me tornando um pouco mais produtivo em comandos rotineiros. Vide exemplo abaixo:
+
+```bash
+$ make migrate
+```
+
+Esse script irá executar o comando abaixo.
+
+```
+$ docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan migrate
+```
+
+A variável de ambiente `${DOCKER_APP_SERVICE_NAME}` representa o nome do serviço relacionado ao servidor web onde estará rodando a API que pode ser visto no seu arquivo `.env`.

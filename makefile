@@ -8,6 +8,15 @@ export
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+##@ Application
+setup: ## Application Setup
+	make install && \
+	make migrate && \
+	make seed && \
+	make jwtToken && \
+	docker-compose up -d && \
+	make queueWork
+
 ##@ Composer
 
 install: ## Composer install dependencies
@@ -33,20 +42,8 @@ test: ## Runs PHPUnit Tests
 
 ##@ Laravel
 
-controller: ## Create a new controller class (e.i: make controller NAME="XptoController")
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan make:controller ${NAME}
-
 cache: ## Flush the application cache
 	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan cache:clear
-
-routeList: ## List all registered routes
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan route:list
-
-routeCache: ## Create a route cache file for faster route registration
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan route:cache
-
-routeClear: ## Remove the route cache file
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan route:clear
 
 migration: ## Create a new migration file (e.i: make migration NAME="create_table_name" | NAME="create_table_name --create=table")
 	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan make:migration ${NAME}
@@ -86,3 +83,6 @@ queueTable: ## Create a migration for the queue jobs database table
 
 queueWork: ## Start processing jobs on the queue as a daemon
 	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan queue:work
+
+jwtToken: ## Set the JWTAuth secret key used to sign the tokens
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} php artisan jwt:secret
