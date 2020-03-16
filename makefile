@@ -10,11 +10,11 @@ help:  ## Display this help
 
 ##@ Application
 setup: ## Application Setup
+    docker-compose up -d && \
 	make install && \
 	make migrate && \
 	make seed && \
 	make jwtToken && \
-	docker-compose up -d && \
 	make queueWork
 
 ##@ Composer
@@ -38,7 +38,7 @@ db-restore: ## Restore database
 
 ##@ PHPUnit
 test: ## Runs PHPUnit Tests
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} vendor/bin/phpunit --colors
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} vendor/bin/phpunit
 
 ##@ Laravel
 
