@@ -6,7 +6,7 @@ Nesse projeto você poderá rodar uma API desenvolvido feita com Laravel e integ
 
 ## Pré-requisitos
 
-É requisito para rodar este projeto:
+É requisito obrigatório para rodar este projeto:
 
 - Docker;
 - Usar um host UNIX;
@@ -23,7 +23,7 @@ $ git clone git@github.com:dersonsena/send4-challenge.git
 
 ### Arquivo `.env`
 
-Entre no diretório do projeto e faça uma cópia do `.env.example` renomeando para `.env` e preencha as variáveis de ambiente.
+Entre no diretório do projeto e faça uma cópia do `.env.example` renomeando para `.env` e preencha as variáveis de ambiente:
 
 ```bash
 $ cd send4-challenge
@@ -71,9 +71,11 @@ Se ocorrer tudo certo durante o setup os containers docker já estarão de pé e
 
 ## Enpoints
 
+Foi utilizado a convenção do [JSEnd](https://github.com/omniti-labs/jsend) para padronizar todos os payloads dos serviços. Dessa forma fica mais fácil e organizado para quem vai consumir essa API tratar as informações.
+
 ### Login
 
-URL: `GET api/auth/login?email=admin@send4.com.br&password=admin`
+URL: `GET /api/auth/login?email=admin@send4.com.br&password=admin`
 
 > **IMPORTANTE:** ao consumir esse serviço, você deverá pegar o Token JWT de autenticação para serem informados nos outros serviços
 
@@ -95,19 +97,31 @@ Body: `{"name": "José da Silva", "email": "jose@domain.com.br", "password": "12
 
 URL: `GET /api/products/favorites`
 
-Header: `Authorization Bearer <JWT_TOKEN>`
+Header: `Authorization: Bearer <JWT_TOKEN>`
 
 ### Favorite Product
 
 URL: `POST /api/products/favorite/<SHOPIFY_PRODUCT_ID>`
 
-Header: `Authorization Bearer <JWT_TOKEN>`
+Header: `Authorization: Bearer <JWT_TOKEN>`
 
 ### Disfavor Product
 
 URL: `POST /api/products/disfavor/<SHOPIFY_PRODUCT_ID>`
 
-Header: `Authorization Bearer <JWT_TOKEN>`
+Header: `Authorization: Bearer <JWT_TOKEN>`
+
+## Tests
+
+Para executar os testes de integração do projeto, basta executar o comando:
+
+```bash
+$ make test
+```
+
+Para melhorar ainda mais a leitura dos testes, foi configurado um novo Printer. Você deverá ver um resultado como o da screenshot abaixo:
+
+![PHPUnit Output](/resources/docs/phpunit-output.jpg)
 
 ## Sobre o Makefile
 
