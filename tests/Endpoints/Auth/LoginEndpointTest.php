@@ -1,13 +1,16 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
-
 class LoginEndpointTest extends TestCase
 {
+    /**
+     * @var string
+     */
+    const URI = '/api/auth/login';
+
     public function testLoginWithoutParams()
     {
-        $this->json('GET', '/api/auth/login', [])
+        $this->json('GET', static::URI, [])
+            ->seeStatusCode(422)
             ->seeJson([
                 'email' => ['The email field is required.'],
                 'password' => ['The password field is required.']
@@ -16,11 +19,57 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithEmptyParams()
     {
-        $this->json('GET', '/api/auth/login', ['email' => '', 'password' => ''])
+        $this->json('GET', static::URI, ['email' => '', 'password' => ''])
+            ->seeStatusCode(422)
             ->seeJson([
                 'email' => ['The email field is required.'],
                 'password' => ['The password field is required.']
             ]);
+    }
+
+    public function testLoginWithEmailOnly()
+    {
+        $this->json('GET', static::URI, ['email' => 'foo@domain.com'])
+            ->seeStatusCode(422)
+            ->seeJson([
+                'password' => ['The password field is required.']
+            ]);
+    }
+
+    public function testLoginWithPasswordOnly()
+    {
+        $this->json('GET', static::URI, ['password' => 'foo'])
+            ->seeStatusCode(422)
+            ->seeJson([
+                'email' => ['The email field is required.'],
+            ]);
+    }
+
+    public function testLoginWithInvalidCredentials()
+    {
+        $this->json('GET', static::URI, ['email' => 'wrong@domain.com', 'password' => '123'])
+            ->seeStatusCode(401)
+            ->seeJson(['message' => 'Unauthorized User']);
+    }
+
+    public function testLoginWithValidCredentials()
+    {
+        $payload = json_decode($this->json('GET', static::URI, ['email' => env('ADMIN_EMAIL'), 'password' => env('ADMIN_PASSWORD')])
+            ->seeStatusCode(200)
+            ->response
+            ->getContent());
+
+        $this->assertTrue(property_exists($payload, 'status'));
+        $this->assertEquals('success', $payload->status);
+
+        $this->assertTrue(property_exists($payload, 'data'));
+        $this->assertTrue(property_exists($payload->data, 'token'));
+        $this->assertTrue(property_exists($payload->data, 'token_type'));
+        $this->assertTrue(property_exists($payload->data, 'expires_in'));
+
+        $this->assertEquals(320, strlen($payload->data->token));
+        $this->assertEquals('bearer', $payload->data->token_type);
+        $this->assertEquals(3600, $payload->data->expires_in);
     }
 }
 
