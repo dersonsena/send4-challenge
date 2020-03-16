@@ -27,6 +27,10 @@ db-backup: ## Backup database
 db-restore: ## Restore database
 	cat backup.sql | docker exec -i ${DOCKER_DB_SERVICE_NAME} /usr/bin/mysql -u root -p${DB_PASSWORD} ${DB_DATABASE}
 
+##@ PHPUnit
+test: ## Runs PHPUnit Tests
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} vendor/bin/phpunit --colors
+
 ##@ Laravel
 
 controller: ## Create a new controller class (e.i: make controller NAME="XptoController")
