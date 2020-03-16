@@ -123,6 +123,12 @@ Para melhorar ainda mais a leitura dos testes, foi configurado um [Printer perso
 
 ![PHPUnit Output](/resources/docs/phpunit-output.jpg)
 
+## GitFlow
+
+Foi utilizado a convenção do GitFlow para organização das branches. As branches podem ser vistas aqui no repositório como é ilustrado abaixo:
+
+![PHPUnit Output](/resources/docs/gitflow.png)
+
 ## Sobre o Makefile
 
 Eu desenvolvi um script [makefile](/makefile) que só dá para ser usando nativamente em hosts UNIX. Eu uso esse script para executar rapidamente comandos dentro dos container Docker me tornando um pouco mais produtivo em comandos rotineiros. Vide exemplo abaixo:
