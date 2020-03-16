@@ -123,6 +123,12 @@ Para melhorar ainda mais a leitura dos testes, foi configurado um [Printer perso
 
 ![PHPUnit Output](/resources/docs/phpunit-output.jpg)
 
+A relatório de cobertura por ser visto pela URL:
+
+```
+http://localhost:8001/coverage-report/index.html
+```
+
 ## GitFlow
 
 Foi utilizado a convenção do GitFlow para organização das branches. As branches podem ser vistas aqui no repositório como é ilustrado abaixo:
