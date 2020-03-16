@@ -1,7 +1,5 @@
 <?php
 
-use App\Domain\User\User;
-
 class RegisterEndpointTest extends AuthTestCase
 {
     /**
