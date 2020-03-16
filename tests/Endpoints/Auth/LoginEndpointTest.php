@@ -59,7 +59,9 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithValidCredentials()
     {
-        $payload = json_decode($this->json('GET', static::URI, ['email' => env('ADMIN_EMAIL'), 'password' => env('ADMIN_PASSWORD')])
+        $fakeUser = factory('App\Domain\User\User')->create();
+
+        $payload = json_decode($this->json('GET', static::URI, ['email' => $fakeUser->email, 'password' => 'secret'])
             ->seeStatusCode(200)
             ->response
             ->getContent());
