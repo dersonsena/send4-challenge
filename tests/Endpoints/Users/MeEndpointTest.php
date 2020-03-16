@@ -1,24 +1,11 @@
 <?php
 
-use App\Domain\User\User;
-
-class MeEndpointTest extends TestCase
+class MeEndpointTest extends AuthTestCase
 {
     /**
      * @var string
      */
     const URI = '/api/users/me';
-
-    /**
-     * @var User
-     */
-    private $user;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = factory('App\Domain\User\User')->create();
-    }
 
     public function testMeWithAuthenticatedUser()
     {

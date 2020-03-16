@@ -7,9 +7,14 @@ class LoginEndpointTest extends TestCase
      */
     const URI = '/api/auth/login';
 
+    /**
+     * @var string
+     */
+    const METHOD = 'GET';
+
     public function testLoginWithoutParams()
     {
-        $this->json('GET', static::URI, [])
+        $this->json(static::METHOD, static::URI, [])
             ->seeStatusCode(422)
             ->seeJson([
                 'email' => ['The email field is required.'],
@@ -19,7 +24,7 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithEmptyParams()
     {
-        $this->json('GET', static::URI, ['email' => '', 'password' => ''])
+        $this->json(static::METHOD, static::URI, ['email' => '', 'password' => ''])
             ->seeStatusCode(422)
             ->seeJson([
                 'email' => ['The email field is required.'],
@@ -29,7 +34,7 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithEmailOnly()
     {
-        $this->json('GET', static::URI, ['email' => 'foo@domain.com'])
+        $this->json(static::METHOD, static::URI, ['email' => 'foo@domain.com'])
             ->seeStatusCode(422)
             ->seeJson([
                 'password' => ['The password field is required.']
@@ -38,7 +43,7 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithPasswordOnly()
     {
-        $this->json('GET', static::URI, ['password' => 'foo'])
+        $this->json(static::METHOD, static::URI, ['password' => 'foo'])
             ->seeStatusCode(422)
             ->seeJson([
                 'email' => ['The email field is required.'],
@@ -47,7 +52,7 @@ class LoginEndpointTest extends TestCase
 
     public function testLoginWithInvalidCredentials()
     {
-        $this->json('GET', static::URI, ['email' => 'wrong@domain.com', 'password' => '123'])
+        $this->json(static::METHOD, static::URI, ['email' => 'wrong@domain.com', 'password' => '123'])
             ->seeStatusCode(401)
             ->seeJson(['message' => 'Unauthorized User']);
     }
