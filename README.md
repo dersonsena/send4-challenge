@@ -119,7 +119,7 @@ Para executar os testes de integração do projeto, basta executar o comando:
 $ make test
 ```
 
-Para melhorar ainda mais a leitura dos testes, foi configurado um novo Printer. Você deverá ver um resultado como o da screenshot abaixo:
+Para melhorar ainda mais a leitura dos testes, foi configurado um [Printer personalizado](https://github.com/mikeerickson/phpunit-pretty-result-printer). Você deverá ver um resultado como o da screenshot abaixo:
 
 ![PHPUnit Output](/resources/docs/phpunit-output.jpg)
 
