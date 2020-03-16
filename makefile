@@ -10,7 +10,7 @@ help:  ## Display this help
 
 ##@ Application
 setup: ## Application Setup
-    docker-compose up -d && \
+	docker-compose up -d && \
 	make install && \
 	make migrate && \
 	make seed && \
