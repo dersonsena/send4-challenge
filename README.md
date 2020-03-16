@@ -2,7 +2,7 @@
 
 Feito por: Kilderson Sena ([@dersonsena](https://github.com/dersonsena))
 
-Nesse projeto você poderá rodar uma API desenvolvido com Laravel com integração com a [Shopify](https://pt.shopify.com). Mais detalhes sobre as funcionalidades pode ser visto no [Documento de Requisitos](/documento-requisitos.pdf) do teste.
+Nesse projeto você poderá rodar uma API desenvolvido feita com Laravel e integrado com o [Shopify](https://pt.shopify.com). Mais detalhes sobre as funcionalidades pode ser visto no [Documento de Requisitos](/documento-requisitos.pdf) do teste.
 
 ## Pré-requisitos
 
@@ -13,7 +13,7 @@ Nesse projeto você poderá rodar uma API desenvolvido com Laravel com integraç
 
 ## Instalação
 
-### 1 - Clone do Repositório
+### Clone do Repositório
 
 Abra seu terminal e faça o clone deste projeto:
 
@@ -21,27 +21,27 @@ Abra seu terminal e faça o clone deste projeto:
 $ git clone git@github.com:dersonsena/send4-challenge.git
 ```
 
-### 2 - Arquivo `.env`
+### Arquivo `.env`
 
-Faça uma cópia do `.env.example` renomeando para `.env` e preencha as variáveis de ambiente.
+Entre no diretório do projeto e faça uma cópia do `.env.example` renomeando para `.env` e preencha as variáveis de ambiente.
 
 ```bash
 $ cd send4-challenge
 $ cp .env.example .env
 ``` 
 
-No arquivo `.env` já é sugerido alguns valores para algumas variáveis de ambiente, mas, fique a vontade para altera-las de acordo com seu ambiente.
+No arquivo `.env` já é sugerido alguns valores para algumas variáveis de ambiente, mas, fique a vontade para alterá-las de acordo com seu ambiente.
 
-### 3 - Variáveis de Ambiente
+### Variáveis de Ambiente
 
 Algumas variáveis de ambiente devem ser configuradas para que você consiga subir a API em sua máquina.
 
-No parâmetro abaixo, coloque uma senha de sua preferência para o usuário root do MySQL Server:
+No parâmetro abaixo coloque uma senha de sua preferência para o usuário root do MySQL Server:
 ```
 DB_PASSWORD=secret
 ```
 
-A API é integrada com uma loja do Shopify e para essa integração funcionar é necessário informar a `API KEY` e o `PASSWORD`. Para ter esses valores, vide o [Documento de Requisitos](/documento-requisitos.pdf) e preencha no seu arquivo `.env`. 
+A API é integrada com uma loja do Shopify e para essa integração funcionar é necessário informar a `API KEY` e o `PASSWORD`. Você pode acessar esses valores no [Documento de Requisitos](/documento-requisitos.pdf) para poder preencher no seu arquivo `.env`. 
 ```
 SHOPIFY_API_KEY=
 SHOPIFY_PASSWORD=
@@ -67,7 +67,7 @@ $ make setup
 
 Se ocorrer tudo certo durante o setup os containers docker já estarão de pé e prontos para serem consumidos
 
-> **IMPORTANTE:** ao terminar o setup o serviço de filas do laravel ficará sendo executando em background. Você poder cancelar o processo com `CTRL + C` e para subir novamente o serviço basta executar o comando `make queueWork`.
+> **IMPORTANTE:** ao terminar o setup o serviço de filas do laravel ficará sendo executando em background. Você poder cancelar esse processo com `CTRL + C` e para subir novamente o serviço basta executar o comando `make queueWork`.
 
 ## Enpoints
 
@@ -89,7 +89,7 @@ URL: `POST /api/users/register`
 
 Header: `Authorization Bearer <JWT_TOKEN>`
 
-Body: `{ "name": "José da Silva", "email": "jose@domain.com.br", "password": "123456" }`
+Body: `{"name": "José da Silva", "email": "jose@domain.com.br", "password": "123456"}`
 
 ### My Favorites
 
@@ -109,7 +109,7 @@ URL: `POST /api/products/disfavor/<SHOPIFY_PRODUCT_ID>`
 
 Header: `Authorization Bearer <JWT_TOKEN>`
 
-## Makefile
+## Sobre o Makefile
 
 Eu desenvolvi um script [makefile](/makefile) que só dá para ser usando nativamente em hosts UNIX. Eu uso esse script para executar rapidamente comandos dentro dos container Docker me tornando um pouco mais produtivo em comandos rotineiros. Vide exemplo abaixo:
 
