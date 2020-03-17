@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\User\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthTestCase extends TestCase
 {
@@ -29,7 +30,7 @@ class AuthTestCase extends TestCase
     {
         $response = $this->call(static::METHOD, static::URI);
 
-        $this->assertEquals(401, $response->status());
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->status());
         $this->assertEquals('Unauthorized.', $response->getContent());
     }
 }

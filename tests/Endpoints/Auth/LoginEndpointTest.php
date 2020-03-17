@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 class LoginEndpointTest extends TestCase
 {
     /**
@@ -15,7 +17,7 @@ class LoginEndpointTest extends TestCase
     public function testLoginWithoutParams()
     {
         $this->json(static::METHOD, static::URI, [])
-            ->seeStatusCode(422)
+            ->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->seeJson([
                 'email' => ['The email field is required.'],
                 'password' => ['The password field is required.']
@@ -25,7 +27,7 @@ class LoginEndpointTest extends TestCase
     public function testLoginWithEmptyParams()
     {
         $this->json(static::METHOD, static::URI, ['email' => '', 'password' => ''])
-            ->seeStatusCode(422)
+            ->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->seeJson([
                 'email' => ['The email field is required.'],
                 'password' => ['The password field is required.']
@@ -35,7 +37,7 @@ class LoginEndpointTest extends TestCase
     public function testLoginWithEmailOnly()
     {
         $this->json(static::METHOD, static::URI, ['email' => 'foo@domain.com'])
-            ->seeStatusCode(422)
+            ->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->seeJson([
                 'password' => ['The password field is required.']
             ]);
@@ -44,7 +46,7 @@ class LoginEndpointTest extends TestCase
     public function testLoginWithPasswordOnly()
     {
         $this->json(static::METHOD, static::URI, ['password' => 'foo'])
-            ->seeStatusCode(422)
+            ->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->seeJson([
                 'email' => ['The email field is required.'],
             ]);
@@ -53,7 +55,7 @@ class LoginEndpointTest extends TestCase
     public function testLoginWithInvalidCredentials()
     {
         $this->json(static::METHOD, static::URI, ['email' => 'wrong@domain.com', 'password' => '123'])
-            ->seeStatusCode(401)
+            ->seeStatusCode(Response::HTTP_UNAUTHORIZED)
             ->seeJson(['message' => 'Unauthorized User']);
     }
 
@@ -62,7 +64,7 @@ class LoginEndpointTest extends TestCase
         $fakeUser = factory('App\Domain\User\User')->create();
 
         $payload = json_decode($this->json('GET', static::URI, ['email' => $fakeUser->email, 'password' => 'secret'])
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->response
             ->getContent());
 

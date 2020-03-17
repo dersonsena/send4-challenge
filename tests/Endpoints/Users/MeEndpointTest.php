@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 class MeEndpointTest extends AuthTestCase
 {
     /**
@@ -11,7 +13,7 @@ class MeEndpointTest extends AuthTestCase
     {
         $payload = json_decode($this->actingAs($this->user)
             ->get(static::URI)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->response
             ->getContent());
 

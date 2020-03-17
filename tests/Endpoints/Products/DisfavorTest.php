@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class DisfavorTest extends AuthTestCase
 {
@@ -23,7 +24,7 @@ class DisfavorTest extends AuthTestCase
 
         $this->actingAs($this->user)
             ->json(static::METHOD, static::URI)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJson([
                 'status' => 'success',
                 'data' => 'Product was disfavored successfully.'
@@ -34,7 +35,7 @@ class DisfavorTest extends AuthTestCase
     {
         $this->actingAs($this->user)
             ->json(static::METHOD, static::URI)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJson([
                 'status' => 'success',
                 'data' => "This product doesn't in your favorites list."

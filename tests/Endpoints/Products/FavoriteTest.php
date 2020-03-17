@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class FavoriteTest extends AuthTestCase
 {
@@ -18,7 +19,7 @@ class FavoriteTest extends AuthTestCase
     {
         $this->actingAs($this->user)
             ->json(static::METHOD, static::URI)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJson([
                 'status' => 'success',
                 'data' => 'Product was favorited successfully.'
@@ -34,7 +35,7 @@ class FavoriteTest extends AuthTestCase
 
         $this->actingAs($this->user)
             ->json(static::METHOD, static::URI)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJson([
                 'status' => 'success',
                 'data' => 'This product is already in your favorites list.'

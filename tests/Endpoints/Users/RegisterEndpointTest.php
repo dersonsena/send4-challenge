@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 class RegisterEndpointTest extends AuthTestCase
 {
     /**
@@ -16,7 +18,7 @@ class RegisterEndpointTest extends AuthTestCase
     {
         $this->actingAs($this->user)
             ->json(static::METHOD, static::URI, [])
-            ->seeStatusCode(422)
+            ->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->seeJson([
                 'name' => ['The name field is required.'],
                 'email' => ['The email field is required.'],
@@ -34,7 +36,7 @@ class RegisterEndpointTest extends AuthTestCase
 
         $payload = json_decode($this->actingAs($this->user)
             ->json(static::METHOD, static::URI, $testUser)
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->response
             ->getContent());
 
