@@ -38,7 +38,10 @@ db-restore: ## Restore database
 
 ##@ PHPUnit
 test: ## Runs PHPUnit Tests
-	docker exec -it ${DOCKER_APP_SERVICE_NAME} vendor/bin/phpunit
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} ./vendor/bin/phpunit
+
+coverage: ## Generate the code coverage report
+	docker exec -it ${DOCKER_APP_SERVICE_NAME} ./vendor/bin/phpunit --coverage-html public/coverage-report
 
 ##@ Laravel
 

@@ -43,12 +43,12 @@ class RegisterEndpointTest extends AuthTestCase
         $this->assertTrue(true, property_exists($payload, 'status'));
         $this->assertEquals('success', $payload->status);
 
-        $this->assertTrue(true, property_exists($payload, 'data'));
-        $this->assertTrue(true, property_exists($payload->data, 'name'));
-        $this->assertTrue(true, property_exists($payload->data, 'email'));
-        $this->assertTrue(true, property_exists($payload->data, 'updated_at'));
-        $this->assertTrue(true, property_exists($payload->data, 'created_at'));
-        $this->assertTrue(true, property_exists($payload->data, 'id'));
+        $this->assertTrue(property_exists($payload, 'data'));
+        $this->assertTrue(property_exists($payload->data, 'name'));
+        $this->assertTrue(property_exists($payload->data, 'email'));
+        $this->assertTrue(property_exists($payload->data, 'updated_at'));
+        $this->assertTrue(property_exists($payload->data, 'created_at'));
+        $this->assertTrue(property_exists($payload->data, 'id'));
         $this->assertEquals($testUser['name'], $payload->data->name);
         $this->assertEquals($testUser['email'], $payload->data->email);
     }
